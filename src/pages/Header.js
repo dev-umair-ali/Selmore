@@ -76,13 +76,10 @@ export default function Header() {
           </Link>
         </nav>
 
-        <Link
-          to="/book-now"
-          className="book-now-link"
-          onClick={toggleMobileMenu}
-        >
-          <button className="book-nowbtn">Book Now</button>
-        </Link>
+        <a href="https://ops.selmoreadvertising.com" onClick={scrollToTop} target="_blank" rel="noopener noreferrer">
+  <button className="book-nowbtn">Book Now</button>
+</a>
+
       </div>
     </header>
   )

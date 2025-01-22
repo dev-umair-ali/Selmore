@@ -7,7 +7,6 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import bgimg from "../images/Glow-1.png";
 
-
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
@@ -136,9 +135,14 @@ const Detail = () => {
         </div>
       </div>
       <div className="book-now-btn">
-        <Link to="/book-now"  onClick={scrollToTop}>
+        <a
+          href="https://ops.selmoreadvertising.com"
+          onClick={scrollToTop}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <button className="book-nowbtn">Book Now</button>
-        </Link>{" "}
+        </a>
       </div>
       <div className="contact-us-home">
         <div className="text-side">

@@ -9,7 +9,7 @@ import Header from "./pages/Header";
 import Footer from "./pages/Footer";
 import ExploreBillboards from "./pages/ExploreBillboards";
 import Detail from "./pages/Detail";
-import BookNow from "../src/pages/BookNow";
+// import BookNow from "../src/pages/BookNow";
 import ServiceDetail from "./pages/ServiceDetail";
 import HoverCards from "./pages/HoverCards"
 
@@ -26,7 +26,7 @@ function App() {
           <Route path="/detail" element={<Detail />} />
           <Route exact path="/contact-us" element={<ContactUs />} />
           <Route exact path="/faqs" element={<FAQs />} />
-          <Route exact path="/book-now" element={<BookNow />} />
+          {/* <Route exact path="/book-now" element={<BookNow />} /> */}
           {/* Dynamic route for Service Detail */}
           <Route path="/" element={<HoverCards />} />
           <Route path="/service-detail" element={<ServiceDetail />} />{" "}

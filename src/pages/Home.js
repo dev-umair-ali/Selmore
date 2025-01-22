@@ -245,11 +245,14 @@ function Home() {
           tailored to meet your business goals.
         </p>
         <div className="book-now">
-          <Link to="/book-now">
-            <button className="book-nowbtn" onClick={scrollToTop}>
-              Book Now
-            </button>
-          </Link>{" "}
+          <a
+            href="https://ops.selmoreadvertising.com"
+            onClick={scrollToTop}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="book-nowbtn">Book Now</button>
+          </a>
         </div>
       </div>
       {/* section7 */}
@@ -305,42 +308,8 @@ function Home() {
         </div>
       </div>
       {/* <section> map 8</section> */}
-      <div className="section-map-main">
-        <div className="locations-container-map">
-          <h3 className="locations-title-map">EXPLORE AVAILABLE LOCATIONS</h3>
-          <div className="locations-content-map">
-            <div className="stats-panel-map">
-              <div className="stat-item-map">
-                <h3>+24%</h3>
-                <p>
-                  Qorem ipsum dolor sit amet, consect adipiscing elit.
-                  nnvulputate li
-                </p>
-                <div className="progress-bar-map"></div>
-              </div>
-              <div className="stat-item-map">
-                <h3>+10%</h3>
-                <p>
-                  Qorem ipsum dolor sit amet, consect adipiscing elit.
-                  nnvulputate li
-                </p>
-                <div className="progress-bar-map"></div>
-              </div>
-              <div className="stat-item-map">
-                <h3>+20%</h3>
-                <p>
-                  Qorem ipsum dolor sit amet, consect adipiscing elit.
-                  nnvulputate li
-                </p>
-                {/* <div className="progress-bar-map"></div> */}
-              </div>
-            </div>
-            <div className="map-image-map">
-              <img src={map} alt="World Map" />
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <PortfolioSection />
 
       {/* <section>contact</section> */}
       <div className="contact-us-outer">
@@ -369,7 +338,42 @@ function Home() {
         </div>
       </div>
       <div className="">
-        <PortfolioSection />
+        <div className="section-map-main">
+          <div className="locations-container-map">
+            <h3 className="locations-title-map">EXPLORE AVAILABLE LOCATIONS</h3>
+            <div className="locations-content-map">
+              <div className="stats-panel-map">
+                <div className="stat-item-map">
+                  <h3>+24%</h3>
+                  <p>
+                    Qorem ipsum dolor sit amet, consect adipiscing elit.
+                    nnvulputate li
+                  </p>
+                  <div className="progress-bar-map"></div>
+                </div>
+                <div className="stat-item-map">
+                  <h3>+10%</h3>
+                  <p>
+                    Qorem ipsum dolor sit amet, consect adipiscing elit.
+                    nnvulputate li
+                  </p>
+                  <div className="progress-bar-map"></div>
+                </div>
+                <div className="stat-item-map">
+                  <h3>+20%</h3>
+                  <p>
+                    Qorem ipsum dolor sit amet, consect adipiscing elit.
+                    nnvulputate li
+                  </p>
+                  {/* <div className="progress-bar-map"></div> */}
+                </div>
+              </div>
+              <div className="map-image-map">
+                <img src={map} alt="World Map" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
