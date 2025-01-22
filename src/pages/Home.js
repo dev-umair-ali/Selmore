@@ -245,11 +245,14 @@ function Home() {
           tailored to meet your business goals.
         </p>
         <div className="book-now">
-          <Link to="/book-now">
-            <button className="book-nowbtn" onClick={scrollToTop}>
-              Book Now
-            </button>
-          </Link>{" "}
+          <a
+            href="https://ops.selmoreadvertising.com"
+            onClick={scrollToTop}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="book-nowbtn">Book Now</button>
+          </a>
         </div>
       </div>
       {/* section7 */}

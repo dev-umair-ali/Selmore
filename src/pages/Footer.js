@@ -83,7 +83,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-copyright-selmore">
-        © {new Date().getFullYear()} Selmore  All rights reserved.
+        © {new Date().getFullYear()} Selmore All rights reserved.
       </div>
     </footer>
   );

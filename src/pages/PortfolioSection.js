@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react"
 import "../styles/PortfolioSection.css";
 
-// Updated portfolio data for advertising/billboard company
 const portfolioData = [
   {
     id: 1,
@@ -171,49 +170,74 @@ const portfolioData = [
     client: "Tech Innovators",
     date: "2023",
   },
-];
+]
 
 const PortfolioCarousel = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(portfolioData.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(0)
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [slideDirection, setSlideDirection] = useState("right")
+  const itemsPerPage = 6
+  const totalPages = Math.ceil(portfolioData.length / itemsPerPage)
+  const autoPlayInterval = 5000 // 5 seconds
 
   const getCurrentItems = () => {
-    const start = currentPage * itemsPerPage;
-    return portfolioData.slice(start, start + itemsPerPage);
-  };
+    const start = currentPage * itemsPerPage
+    return portfolioData.slice(start, start + itemsPerPage)
+  }
 
-  const nextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % totalPages);
-  };
+  const nextPage = useCallback(() => {
+    setSlideDirection("right")
+    setCurrentPage((prev) => (prev + 1) % totalPages)
+  }, [totalPages])
 
-  const prevPage = () => {
-    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-  };
+  const prevPage = useCallback(() => {
+    setSlideDirection("left")
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)
+  }, [totalPages])
 
-  const nextImage = (e) => {
-    e.stopPropagation();
-    if (selectedItem) {
-      setCurrentImageIndex((prev) => (prev + 1) % selectedItem.images.length);
-    }
-  };
-
-  const prevImage = (e) => {
-    e.stopPropagation();
-    if (selectedItem) {
-      setCurrentImageIndex(
-        (prev) =>
-          (prev - 1 + selectedItem.images.length) % selectedItem.images.length
-      );
-    }
-  };
+  const nextImage = useCallback(
+    (e) => {
+      if (e) e.stopPropagation()
+      if (selectedItem) {
+        setCurrentImageIndex((prev) => (prev + 1) % selectedItem.images.length)
+      }
+    },
+    [selectedItem],
+  )
 
   const handleItemClick = (item) => {
-    setSelectedItem(item);
-    setCurrentImageIndex(0);
-  };
+    setSelectedItem(item)
+    setCurrentImageIndex(0)
+  }
+
+  const goToPage = (pageIndex) => {
+    if (pageIndex > currentPage) setSlideDirection("right")
+    else setSlideDirection("left")
+    setCurrentPage(pageIndex)
+  }
+
+  const goToImage = (imageIndex) => {
+    setCurrentImageIndex(imageIndex)
+  }
+
+  // Autoplay for main carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextPage()
+    }, autoPlayInterval)
+
+    return () => clearInterval(interval)
+  }, [nextPage])
+
+  // Autoplay for popup slider
+  useEffect(() => {
+    let interval
+    if (selectedItem) {
+      interval = setInterval(nextImage, autoPlayInterval)
+    }
+    return () => clearInterval(interval)
+  }, [selectedItem, nextImage])
 
   return (
     <section className="portfolio-section">
@@ -221,21 +245,15 @@ const PortfolioCarousel = () => {
         <p className="portfolio-subtitle">Our Work</p>
         <h2 className="portfolio-title">Advertising Portfolio</h2>
         <p className="portfolio-description">
-          We are a full-service advertising media agency dedicated to helping
-          brands reach and engage their target audiences. Using strategic
-          insights and creative solutions across digital, social, print, and
-          outdoor platforms, we bring your brand's vision to life and maximize
-          its impact.
+          We are a full-service advertising media agency dedicated to helping brands reach and engage their target
+          audiences. Using strategic insights and creative solutions across digital, social, print, and outdoor
+          platforms, we bring your brand's vision to life and maximize its impact.
         </p>
       </div>
 
-      <div className="portfolio-grid">
+      <div className={`portfolio-grid slide-${slideDirection}`}>
         {getCurrentItems().map((item) => (
-          <div
-            key={item.id}
-            className="portfolio-item"
-            onClick={() => handleItemClick(item)}
-          >
+          <div key={item.id} className="portfolio-item" onClick={() => handleItemClick(item)}>
             <img src={item.images[0] || "/placeholder.svg"} alt={item.title} />
             <div className="overlay">
               <span className="plus-sign">+</span>
@@ -248,42 +266,43 @@ const PortfolioCarousel = () => {
         ))}
       </div>
 
-      <div className="navigation-buttons">
-        <button onClick={prevPage} className="nav-button2">
-          <span>Previous</span>
-        </button>
-        <button onClick={nextPage} className="nav-button2">
-          <span class="icon">Next</span>
-        </button>
+      <div className="carousel-dots">
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            className={`carousel-dot ${currentPage === index ? "active" : ""}`}
+            onClick={() => goToPage(index)}
+            aria-label={`Go to page ${index + 1}`}
+          />
+        ))}
       </div>
 
       {selectedItem && (
         <div className="popup-overlay" onClick={() => setSelectedItem(null)}>
           <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="close-button"
-              onClick={() => setSelectedItem(null)}
-            >
+            <button className="close-button" onClick={() => setSelectedItem(null)} aria-label="Close popup">
               ×
             </button>
             <div className="popup-image-slider">
-              <button className="slider-button prev" onClick={prevImage}>
-                ❮
-              </button>
               <div className="popup-image">
                 <img
-                  src={
-                    selectedItem.images[currentImageIndex] || "/placeholder.svg"
-                  }
+                  src={selectedItem.images[currentImageIndex] || "/placeholder.svg"}
                   alt={`${selectedItem.title} - Image ${currentImageIndex + 1}`}
                 />
                 <div className="image-counter">
                   {currentImageIndex + 1} / {selectedItem.images.length}
                 </div>
               </div>
-              <button className="slider-button next" onClick={nextImage}>
-                ❯
-              </button>
+              <div className="popup-slider-dots">
+                {selectedItem.images.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`popup-slider-dot ${currentImageIndex === index ? "active" : ""}`}
+                    onClick={() => goToImage(index)}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
             <div className="popup-details">
               <h2>{selectedItem.title}</h2>
@@ -302,7 +321,8 @@ const PortfolioCarousel = () => {
         </div>
       )}
     </section>
-  );
-};
+  )
+}
 
-export default PortfolioCarousel;
+export default PortfolioCarousel
+
